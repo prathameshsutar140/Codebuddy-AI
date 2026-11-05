@@ -96,8 +96,34 @@ NODE_ENV=development
 
 ---
 
+## 🌐 Deploying to GitHub & Vercel
+
+When importing this repository into Vercel, complete these **two 1-minute steps** so your friends can sign in and create accounts from your Vercel link:
+
+### 1. Add your Vercel domain to Firebase Authorized Domains
+Firebase blocks login requests from unknown domains for security.
+1. Open the [Firebase Console](https://console.firebase.google.com/) and select your project (`substantial-handbook-46lcq`).
+2. Go to **Build > Authentication > Settings**.
+3. Under **Authorized domains**, click **Add domain**.
+4. Paste your Vercel domain (e.g. `your-app-name.vercel.app`) and click **Save**.
+
+### 2. Enable Email/Password Sign-In
+1. In Firebase Console, go to **Authentication > Sign-in method**.
+2. Click on **Email/Password**.
+3. Toggle the switch to **Enable** and click **Save**.
+
+### 3. Add Environment Variables on Vercel
+In your Vercel Project Dashboard:
+- Go to **Settings > Environment Variables**.
+- Add `GEMINI_API_KEY` with your Google AI Studio Gemini API Key.
+
+*Note: CodeBuddy AI also provides an **"Instant Access: Continue as Guest Student"** button in the sign-in modal so anyone can explore immediately without waiting for domain configuration.*
+
+---
+
 ## 🔒 Security & Sandboxing
 
 1. **Firestore Security Rules:** Hardened rule specifications protecting user PII, restricting write operations to document owners, and securing administrative collections.
 2. **Safe Code Execution:** User JavaScript code executes in an isolated Node.js VM context with a strict 2-second timeout and removed dangerous globals (`process`, `require`, `eval`, `Function`). Compiled languages are evaluated with deterministic static verification.
 3. **Secret Protection:** Google Gemini API keys are maintained exclusively on the server side in `server.ts`. Client code never accesses raw API secrets.
+
