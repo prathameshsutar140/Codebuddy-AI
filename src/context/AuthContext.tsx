@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           uid: firebaseUser.uid,
           name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Code Explorer',
           email: firebaseUser.email || '',
-          photoURL: firebaseUser.photoURL || undefined,
+          photoURL: firebaseUser.photoURL || '',
           experienceLevel: 'beginner',
           preferredLanguage: 'JavaScript',
           learningGoals: 'Master full-stack programming and ace coding interviews',
@@ -69,6 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           await setDoc(userDocRef, newProfile);
           setProfile(newProfile);
         } catch (setErr) {
+          setProfile(newProfile);
           handleFirestoreError(setErr, OperationType.WRITE, `users/${firebaseUser.uid}`);
         }
       }
