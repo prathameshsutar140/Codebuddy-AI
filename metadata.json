@@ -1,0 +1,7 @@
+{
+  "name": "CodeBuddy AI",
+  "description": "Learn Smarter. Code Better. Build Your Future with CodeBuddy AI – advanced AI-powered programming learning platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

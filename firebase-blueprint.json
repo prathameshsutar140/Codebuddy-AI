@@ -1,0 +1,204 @@
+{
+  "entities": {
+    "users": {
+      "title": "User",
+      "description": "User profile and learning preferences",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "maxLength": 100, "description": "Full name" },
+        "email": { "type": "string", "format": "email", "maxLength": 150, "description": "User email address" },
+        "photoURL": { "type": "string", "maxLength": 500, "description": "Profile picture URL" },
+        "experienceLevel": { "type": "string", "enum": ["beginner", "intermediate", "advanced"], "description": "Programming experience level" },
+        "preferredLanguage": { "type": "string", "maxLength": 50, "description": "Primary learning language" },
+        "learningGoals": { "type": "string", "maxLength": 300, "description": "Target learning objectives" },
+        "role": { "type": "string", "enum": ["student", "admin"], "description": "User role" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp" }
+      },
+      "required": ["uid", "name", "email", "experienceLevel", "preferredLanguage"]
+    },
+    "courses": {
+      "title": "Course",
+      "description": "Programming course track",
+      "type": "object",
+      "properties": {
+        "courseId": { "type": "string", "description": "Unique course identifier" },
+        "title": { "type": "string", "maxLength": 120, "description": "Course title" },
+        "language": { "type": "string", "maxLength": 50, "description": "Programming language" },
+        "description": { "type": "string", "maxLength": 500, "description": "Course overview" },
+        "difficulty": { "type": "string", "enum": ["Beginner", "Intermediate", "Advanced"], "description": "Target difficulty" },
+        "lessonsCount": { "type": "number", "description": "Total lessons count" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["courseId", "title", "language", "description", "difficulty"]
+    },
+    "userProgress": {
+      "title": "UserProgress",
+      "description": "Tracks lessons and course completion per user",
+      "type": "object",
+      "properties": {
+        "progressId": { "type": "string", "description": "Progress record ID" },
+        "userId": { "type": "string", "description": "Owner user UID" },
+        "courseId": { "type": "string", "description": "Course ID" },
+        "completedLessons": { "type": "array", "description": "Array of completed lesson IDs" },
+        "completionPercentage": { "type": "number", "description": "Percentage 0-100" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["progressId", "userId", "courseId", "completedLessons", "completionPercentage"]
+    },
+    "conversations": {
+      "title": "Conversation",
+      "description": "AI chat session",
+      "type": "object",
+      "properties": {
+        "conversationId": { "type": "string", "description": "Conversation ID" },
+        "userId": { "type": "string", "description": "Owner user UID" },
+        "title": { "type": "string", "maxLength": 150, "description": "Chat topic title" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["conversationId", "userId", "title"]
+    },
+    "messages": {
+      "title": "Message",
+      "description": "Individual message in AI conversation",
+      "type": "object",
+      "properties": {
+        "messageId": { "type": "string", "description": "Message ID" },
+        "conversationId": { "type": "string", "description": "Parent conversation ID" },
+        "userId": { "type": "string", "description": "Author UID" },
+        "role": { "type": "string", "enum": ["user", "assistant", "system"] },
+        "content": { "type": "string", "maxLength": 50000, "description": "Message text/markdown" },
+        "explanationLevel": { "type": "string", "enum": ["beginner", "intermediate", "advanced"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["messageId", "conversationId", "userId", "role", "content"]
+    },
+    "savedCodes": {
+      "title": "SavedCode",
+      "description": "User saved code snippet library item",
+      "type": "object",
+      "properties": {
+        "codeId": { "type": "string", "description": "Snippet ID" },
+        "userId": { "type": "string", "description": "Owner UID" },
+        "title": { "type": "string", "maxLength": 150, "description": "Snippet title" },
+        "language": { "type": "string", "maxLength": 50, "description": "Language name" },
+        "sourceCode": { "type": "string", "maxLength": 100000, "description": "Source code text" },
+        "description": { "type": "string", "maxLength": 500, "description": "Description" },
+        "tags": { "type": "array", "description": "Tags list (up to 10 tags)" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["codeId", "userId", "title", "language", "sourceCode"]
+    },
+    "quizResults": {
+      "title": "QuizResult",
+      "description": "Quiz completion score and performance",
+      "type": "object",
+      "properties": {
+        "resultId": { "type": "string", "description": "Result ID" },
+        "userId": { "type": "string", "description": "Student UID" },
+        "topic": { "type": "string", "maxLength": 120, "description": "Quiz topic/language" },
+        "difficulty": { "type": "string", "enum": ["beginner", "intermediate", "advanced"] },
+        "score": { "type": "number", "description": "Correct answers count" },
+        "totalQuestions": { "type": "number", "description": "Total question count" },
+        "percentage": { "type": "number", "description": "Accuracy percentage" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["resultId", "userId", "topic", "score", "totalQuestions", "percentage"]
+    },
+    "challenges": {
+      "title": "Challenge",
+      "description": "Coding challenge and problem definition",
+      "type": "object",
+      "properties": {
+        "challengeId": { "type": "string", "description": "Challenge ID" },
+        "title": { "type": "string", "maxLength": 150, "description": "Challenge title" },
+        "category": { "type": "string", "maxLength": 60, "description": "Category name" },
+        "difficulty": { "type": "string", "enum": ["Easy", "Medium", "Hard"] },
+        "language": { "type": "string", "maxLength": 50, "description": "Primary language" },
+        "description": { "type": "string", "maxLength": 5000, "description": "Problem statement and description" },
+        "inputFormat": { "type": "string", "maxLength": 1000 },
+        "outputFormat": { "type": "string", "maxLength": 1000 },
+        "constraints": { "type": "string", "maxLength": 1000 },
+        "sampleInput": { "type": "string", "maxLength": 2000 },
+        "sampleOutput": { "type": "string", "maxLength": 2000 },
+        "starterCode": { "type": "string", "maxLength": 10000 },
+        "testCases": { "type": "array", "description": "List of test cases with input and expected output" },
+        "hints": { "type": "array", "description": "Hints array" }
+      },
+      "required": ["challengeId", "title", "difficulty", "language", "description", "starterCode"]
+    },
+    "challengeSubmissions": {
+      "title": "ChallengeSubmission",
+      "description": "User submission for a coding challenge",
+      "type": "object",
+      "properties": {
+        "submissionId": { "type": "string", "description": "Submission ID" },
+        "userId": { "type": "string", "description": "Student UID" },
+        "challengeId": { "type": "string", "description": "Challenge ID" },
+        "sourceCode": { "type": "string", "maxLength": 50000, "description": "Submitted code" },
+        "language": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["passed", "failed", "error"] },
+        "executionTimeMs": { "type": "number" },
+        "testsPassed": { "type": "number" },
+        "totalTests": { "type": "number" },
+        "submittedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["submissionId", "userId", "challengeId", "sourceCode", "status"]
+    },
+    "admins": {
+      "title": "Admin",
+      "description": "Administrator allowlist mapping UID to admin info",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "grantedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "User profile documents"
+    },
+    "/courses/{courseId}": {
+      "schema": "courses",
+      "description": "Curated course tracks"
+    },
+    "/userProgress/{progressId}": {
+      "schema": "userProgress",
+      "description": "Course progress records per user"
+    },
+    "/conversations/{conversationId}": {
+      "schema": "conversations",
+      "description": "AI chat conversation heads"
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "messages",
+      "description": "Conversation messages"
+    },
+    "/savedCodes/{codeId}": {
+      "schema": "savedCodes",
+      "description": "Saved code snippets"
+    },
+    "/quizResults/{resultId}": {
+      "schema": "quizResults",
+      "description": "Completed quiz scores"
+    },
+    "/challenges/{challengeId}": {
+      "schema": "challenges",
+      "description": "Coding challenge problems"
+    },
+    "/challengeSubmissions/{submissionId}": {
+      "schema": "challengeSubmissions",
+      "description": "Challenge submissions and execution logs"
+    },
+    "/admins/{adminId}": {
+      "schema": "admins",
+      "description": "Platform administrators"
+    }
+  }
+}

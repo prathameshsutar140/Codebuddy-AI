@@ -1,0 +1,414 @@
+import React, { useState, useEffect } from 'react';
+import {
+  BrainCircuit,
+  Sparkles,
+  Clock,
+  CheckCircle2,
+  XCircle,
+  HelpCircle,
+  Award,
+  RotateCcw,
+  Sliders,
+  ChevronRight,
+  Flame
+} from 'lucide-react';
+import confetti from 'canvas-confetti';
+import { useAuth } from '../context/AuthContext';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { collection, addDoc } from 'firebase/firestore';
+import { QuizQuestion, ExperienceLevel } from '../types';
+
+export const QuizView: React.FC = () => {
+  const { user } = useAuth();
+
+  // Generator form state
+  const [language, setLanguage] = useState('JavaScript');
+  const [topic, setTopic] = useState('Loops & Arrays');
+  const [difficulty, setDifficulty] = useState<ExperienceLevel>('beginner');
+  const [questionCount, setQuestionCount] = useState(5);
+
+  // Quiz state
+  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[] | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [quizFinished, setQuizFinished] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // Timer
+  const [timeLeft, setTimeLeft] = useState(60);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (quizQuestions && !quizFinished && timeLeft > 0) {
+      timer = setInterval(() => setTimeLeft((t) => t - 1), 1000);
+    } else if (timeLeft === 0 && !quizFinished && quizQuestions) {
+      handleFinishQuiz();
+    }
+    return () => clearInterval(timer);
+  }, [quizQuestions, quizFinished, timeLeft]);
+
+  const handleGenerateQuiz = async () => {
+    setLoading(true);
+    setError('');
+    setQuizQuestions(null);
+    setSelectedAnswers({});
+    setCurrentIndex(0);
+    setQuizFinished(false);
+    setShowExplanation(false);
+
+    try {
+      const res = await fetch('/api/ai/quiz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          language,
+          topic,
+          difficulty,
+          count: questionCount
+        })
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to generate quiz');
+      }
+
+      const data = await res.json();
+      if (!data.questions || data.questions.length === 0) {
+        throw new Error('No questions returned from quiz generator.');
+      }
+
+      setQuizQuestions(data.questions);
+      setTimeLeft(data.questions.length * 45); // 45 seconds per question
+    } catch (err: unknown) {
+      console.error('Quiz generator error:', err);
+      setError(err instanceof Error ? err.message : 'Quiz generator encountered an error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSelectOption = (index: number) => {
+    if (showExplanation) return;
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [currentIndex]: index
+    }));
+  };
+
+  const handleNextQuestion = () => {
+    if (!quizQuestions) return;
+    setShowExplanation(false);
+    if (currentIndex < quizQuestions.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+    } else {
+      handleFinishQuiz();
+    }
+  };
+
+  const handleFinishQuiz = async () => {
+    setQuizFinished(true);
+    if (!quizQuestions) return;
+
+    let correctCount = 0;
+    quizQuestions.forEach((q, i) => {
+      if (selectedAnswers[i] === q.correctIndex) {
+        correctCount++;
+      }
+    });
+
+    const scorePercentage = Math.round((correctCount / quizQuestions.length) * 100);
+
+    if (scorePercentage >= 80) {
+      confetti({
+        particleCount: 80,
+        spread: 60,
+        origin: { y: 0.6 }
+      });
+    }
+
+    // Save to Firestore if user is authenticated
+    if (user) {
+      try {
+        await addDoc(collection(db, 'quizResults'), {
+          userId: user.uid,
+          topic: `${language}: ${topic}`,
+          difficulty,
+          score: correctCount,
+          totalQuestions: quizQuestions.length,
+          percentage: scorePercentage,
+          completedAt: new Date().toISOString()
+        });
+      } catch (err) {
+        console.warn('Could not persist quiz result:', err);
+      }
+    }
+  };
+
+  const currentQ = quizQuestions ? quizQuestions[currentIndex] : null;
+
+  return (
+    <div className="space-y-6 max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="p-5 rounded-2xl bg-[#0f1422] border border-slate-800/90 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-2.5">
+          <div className="p-2.5 rounded-xl bg-purple-500/15 border border-purple-500/20 text-purple-400">
+            <BrainCircuit className="w-5 h-5" />
+          </div>
+          <div>
+            <h1 className="text-lg font-bold text-white">AI Quiz Generator & Evaluator</h1>
+            <p className="text-xs text-slate-400">
+              Personalized multiple-choice questions dynamically generated by Gemini
+            </p>
+          </div>
+        </div>
+
+        {quizQuestions && !quizFinished && (
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-purple-300">
+            <Clock className="w-4 h-4 text-purple-400" />
+            <span>
+              {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {error && (
+        <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-800 text-xs text-rose-300">
+          {error}
+        </div>
+      )}
+
+      {/* Generator Configuration Panel (when not in quiz) */}
+      {!quizQuestions && (
+        <div className="p-6 rounded-2xl bg-[#0b0e17] border border-slate-800 space-y-6">
+          <h2 className="text-sm font-bold text-white">Create Custom Programming Quiz</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                Target Language
+              </label>
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500"
+              >
+                <option value="JavaScript">JavaScript</option>
+                <option value="Python">Python</option>
+                <option value="C">C Programming</option>
+                <option value="C++">C++</option>
+                <option value="Java">Java</option>
+                <option value="SQL">SQL</option>
+                <option value="HTML & CSS">HTML & CSS</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                Topic or Focus Area
+              </label>
+              <input
+                type="text"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                placeholder="e.g. Recursion, Pointers, OOP, Promises"
+                className="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                Difficulty Level
+              </label>
+              <select
+                value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value as ExperienceLevel)}
+                className="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500"
+              >
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                Number of Questions
+              </label>
+              <select
+                value={questionCount}
+                onChange={(e) => setQuestionCount(parseInt(e.target.value, 10))}
+                className="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500"
+              >
+                <option value={3}>3 Questions (Quick Sprint)</option>
+                <option value={5}>5 Questions (Standard Test)</option>
+                <option value={8}>8 Questions (Deep Assessment)</option>
+              </select>
+            </div>
+          </div>
+
+          <button
+            onClick={handleGenerateQuiz}
+            disabled={loading}
+            className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-purple-600/20 transition flex items-center justify-center gap-2 disabled:opacity-50"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>{loading ? 'Synthesizing Questions with Gemini...' : 'Generate AI Quiz'}</span>
+          </button>
+        </div>
+      )}
+
+      {/* Active Quiz Player */}
+      {quizQuestions && !quizFinished && currentQ && (
+        <div className="p-6 rounded-2xl bg-[#0b0e17] border border-slate-800 space-y-5">
+          {/* Progress bar */}
+          <div className="flex items-center justify-between text-xs text-slate-400">
+            <span>
+              Question {currentIndex + 1} of {quizQuestions.length}
+            </span>
+            <span className="capitalize text-purple-400">{difficulty}</span>
+          </div>
+          <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-purple-500 rounded-full transition-all"
+              style={{ width: `${((currentIndex + 1) / quizQuestions.length) * 100}%` }}
+            />
+          </div>
+
+          {/* Question Text */}
+          <div className="space-y-3">
+            <h3 className="text-base font-semibold text-white leading-relaxed">
+              {currentQ.question}
+            </h3>
+
+            {currentQ.codeSnippet && (
+              <pre className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 font-mono text-xs text-purple-300 overflow-x-auto">
+                <code>{currentQ.codeSnippet}</code>
+              </pre>
+            )}
+          </div>
+
+          {/* 4 Answer Options */}
+          <div className="space-y-2.5 pt-2">
+            {currentQ.options.map((option, optIdx) => {
+              const isSelected = selectedAnswers[currentIndex] === optIdx;
+              const isCorrect = optIdx === currentQ.correctIndex;
+              let optionClass =
+                'border-slate-800 bg-slate-900/70 hover:bg-slate-800/80 text-slate-200';
+
+              if (showExplanation) {
+                if (isCorrect) {
+                  optionClass = 'border-emerald-500/80 bg-emerald-950/40 text-emerald-200';
+                } else if (isSelected && !isCorrect) {
+                  optionClass = 'border-rose-500/80 bg-rose-950/40 text-rose-200';
+                }
+              } else if (isSelected) {
+                optionClass = 'border-purple-500 bg-purple-950/40 text-purple-200';
+              }
+
+              return (
+                <button
+                  key={optIdx}
+                  onClick={() => handleSelectOption(optIdx)}
+                  className={`w-full text-left p-3.5 rounded-xl border text-xs font-medium transition flex items-center justify-between ${optionClass}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-[11px] shrink-0">
+                      {String.fromCharCode(65 + optIdx)}
+                    </span>
+                    <span>{option}</span>
+                  </div>
+                  {showExplanation && isCorrect && (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  )}
+                  {showExplanation && isSelected && !isCorrect && (
+                    <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Explanation Box */}
+          {showExplanation && (
+            <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30 text-xs text-slate-200 space-y-1.5 animate-in fade-in">
+              <div className="flex items-center gap-1.5 text-purple-400 font-bold uppercase tracking-wider text-[10px]">
+                <HelpCircle className="w-3.5 h-3.5" />
+                <span>Explanation</span>
+              </div>
+              <p className="leading-relaxed">{currentQ.explanation}</p>
+            </div>
+          )}
+
+          {/* Action Row */}
+          <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
+            <button
+              onClick={() => setShowExplanation(!showExplanation)}
+              disabled={selectedAnswers[currentIndex] === undefined}
+              className="text-xs text-purple-400 hover:text-purple-300 font-medium transition disabled:opacity-40"
+            >
+              {showExplanation ? 'Hide Explanation' : 'Check Explanation'}
+            </button>
+
+            <button
+              onClick={handleNextQuestion}
+              disabled={selectedAnswers[currentIndex] === undefined}
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold transition disabled:opacity-40 flex items-center gap-1"
+            >
+              <span>
+                {currentIndex === quizQuestions.length - 1 ? 'Finish Quiz' : 'Next Question'}
+              </span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Quiz Finished Scoreboard */}
+      {quizFinished && quizQuestions && (
+        <div className="p-8 rounded-2xl bg-[#0b0e17] border border-slate-800 text-center space-y-5 animate-in zoom-in-95">
+          <div className="w-16 h-16 rounded-full bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-400 mx-auto">
+            <Award className="w-8 h-8" />
+          </div>
+
+          <div>
+            <h2 className="text-xl font-bold text-white">Quiz Completed!</h2>
+            <p className="text-xs text-slate-400 mt-1">Topic: {topic} ({language})</p>
+          </div>
+
+          {/* Score display */}
+          {(() => {
+            let correct = 0;
+            quizQuestions.forEach((q, i) => {
+              if (selectedAnswers[i] === q.correctIndex) correct++;
+            });
+            const pct = Math.round((correct / quizQuestions.length) * 100);
+
+            return (
+              <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 max-w-xs mx-auto">
+                <span className="text-3xl font-extrabold text-purple-400">{pct}%</span>
+                <p className="text-xs text-slate-300 mt-1">
+                  You scored {correct} out of {quizQuestions.length} questions correctly.
+                </p>
+              </div>
+            );
+          })()}
+
+          <div className="flex items-center justify-center gap-3 pt-2">
+            <button
+              onClick={() => {
+                setQuizQuestions(null);
+                setQuizFinished(false);
+              }}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition shadow-md shadow-purple-600/20"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Take Another Quiz</span>
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
