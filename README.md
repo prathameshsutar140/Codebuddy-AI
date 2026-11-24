@@ -1,129 +1,209 @@
-# CodeBuddy AI – Advanced AI-Powered Programming Learning Platform
+# CodeBuddy AI
 
-> **Tagline:** Learn Smarter. Code Better. Build Your Future.
+> **Learn Smarter. Code Better. Build Your Future.**
 
-CodeBuddy AI is an intelligent full-stack programming education platform that assists students and developers in learning programming languages, understanding complex code, debugging errors, solving algorithmic challenges, practicing in an interactive Monaco editor, and evaluating their skills with AI-generated quizzes.
+CodeBuddy AI is an AI-powered programming learning platform built to help students and developers understand code, practice programming, debug errors, and improve their problem-solving skills in one place.
 
----
-
-## 🌟 Core Features
-
-### 1. 🤖 AI Code Assistant (Gemini 3.8 Flash)
-- Interactive conversational chat with real-time markdown and syntax highlighting.
-- Context-aware explanations tailored across **Beginner**, **Intermediate**, and **Advanced** levels.
-- Code generation, algorithmic conversion, refactoring, and follow-up inquiry handling.
-- Integrated one-click copy and source file download.
-
-### 2. 🔍 Code Explainer
-- In-depth algorithmic breakdown of code across **C, C++, Python, Java, JavaScript, HTML/CSS, and SQL**.
-- Line-by-line inspection cards with associated line spans.
-- Variable roles, function signatures, and step-by-step logic execution traces.
-- Exact Big-O time and space complexity evaluations with rationales.
-- Sample input and output runs.
-
-### 3. 🧪 Debugging Lab
-- Side-by-side **Original Source Code** and **Suggested Corrected Code** views without silent overwrites.
-- Diagnoses runtime exceptions, syntax errors, and logic traps.
-- Detailed cause analysis, changes made breakdown, and future prevention tips.
-- "Apply Fix to Editor" instant action button.
-
-### 4. 💻 Interactive Coding Playground (Monaco Editor)
-- High-performance Monaco editor supporting syntax highlighting, line numbers, and formatting.
-- Multi-language sandbox: JavaScript (Node.js isolated VM with timeout limits), Python, C, C++, Java, and SQL.
-- Real-time HTML & CSS browser preview iframe.
-- Standard output, runtime error traces, and millisecond execution timer.
-- Snippet saving directly to the authenticated user's library.
-
-### 5. 📚 Programming Learning Center (Curated Curriculum)
-- **C Programming:** Compilers, Variables, Memory Sizes, Pointers, and Structures.
-- **C++ Programming:** Classes, Encapsulation, RAII, Virtual Functions, and Polymorphism.
-- **Python:** Data Structures, List Comprehensions, Generators, and OOP.
-- **Java:** JVM Architecture, Type Safety, Object Structures, and Garbage Collection.
-- **JavaScript:** Event Loop, Promises, Async/Await, and Functional Array Pipelines.
-- **HTML & CSS:** Modern Flexbox and 2D CSS Grid Layouts.
-- **SQL:** Relational Database Engineering, JOINs, Aggregations, and GROUP BY.
-
-### 6. 🧠 AI Quiz Generator
-- Dynamic quiz generation with 4 multiple-choice options, contextual code snippets, and timers.
-- Immediate evaluation with in-depth pedagogical explanations.
-- Automatic score tally and persistent tracking in Firebase Firestore.
-
-### 7. 🏆 Practice Arena & Coding Challenges
-- Categorized problem library: Arrays, Strings, Loops, Algorithms, and Data Structures across Easy, Medium, and Hard.
-- Sandboxed test case evaluation with input/output matching.
-- Hint reveals and progress tracking upon passing all test cases.
-
-### 8. 🎓 Personal 1-on-1 AI Tutor
-- Socratic learning mode encouraging exploration rather than mere answers.
-- **"Simple English" Analogy Mode** designed for beginners (e.g. Russian dolls for recursion).
-- Custom 4-week study plan generation.
-
-### 9. 📁 Saved Code Library
-- Personal snippet repository with multi-tagging and search.
-- One-click copy, download, and instant playground opening.
-
-### 10. 📊 Learning Analytics & Recharts
-- Verified hours learned, problems solved, and quiz accuracy.
-- Weekly/Monthly coding activity bar charts.
-- Language distribution pie charts.
-- Skill milestones and learning streak tracker.
-
-### 11. 🛡️ Administrator Dashboard
-- Server-side role-based access control (RBAC).
-- Platform metrics: Active students, AI queries handled, published courses, and operational health.
-- User management table and curriculum status.
+It brings together an AI coding assistant, code explanations, a debugging workspace, an interactive coding playground, quizzes, challenges, and learning analytics.
 
 ---
 
-## 🛠️ Technology Stack
+## ✨ Features
 
-- **Frontend:** React 19, TypeScript, Tailwind CSS, Lucide React, Recharts, Monaco Editor (`@monaco-editor/react`), React Markdown, remark-gfm, canvas-confetti.
-- **Backend:** Node.js, Express.js (`server.ts`), Vite middleware in development.
-- **AI Engine:** Google Gemini API (`@google/genai`) with `gemini-3.8-flash`.
-- **Database:** Firebase Firestore with hardened security rules.
-- **Authentication:** Firebase Authentication (Email/Password, Google Sign-In, Password Reset).
+### 🤖 AI Code Assistant
+- Chat with an AI assistant for programming help.
+- Get explanations tailored to beginner, intermediate, or advanced levels.
+- Ask for code generation, refactoring, algorithm conversions, and follow-up explanations.
+- Copy generated code or download it as a file.
+
+### 🔍 Code Explainer
+- Explore code in C, C++, Python, Java, JavaScript, HTML/CSS, and SQL.
+- Understand code through line-by-line explanations.
+- Review variables, functions, and execution steps.
+- Learn about time and space complexity with explanations.
+- View sample inputs and outputs.
+
+### 🐞 Debugging Lab
+- Investigate syntax errors, runtime errors, and logic issues.
+- Compare original code with suggested corrected code.
+- Read explanations of the cause and suggested changes.
+- Apply a suggested fix to the editor when ready.
+
+### 💻 Interactive Coding Playground
+- Write code in the Monaco Editor with syntax highlighting and line numbers.
+- Work with JavaScript, Python, C, C++, Java, and SQL.
+- Preview HTML and CSS in the browser.
+- Review program output, errors, and execution time.
+- Save useful snippets to your personal library.
+
+### 📚 Programming Learning Center
+Explore curated learning content for:
+- C Programming
+- C++ Programming
+- Python
+- Java
+- JavaScript
+- HTML and CSS
+- SQL
+
+### 🧠 AI Quiz Generator
+- Generate programming multiple-choice quizzes.
+- Practice with code-based questions and timers.
+- Receive instant scores and explanations.
+- Track quiz performance.
+
+### 🏆 Practice Arena
+- Practice problems involving arrays, strings, loops, algorithms, and data structures.
+- Choose from Easy, Medium, and Hard difficulty levels.
+- Use hints and check solutions against test cases.
+- Track challenge progress.
+
+### 🎓 Personal AI Tutor
+- Get guided, step-by-step learning support.
+- Use simple-English explanations and relatable analogies.
+- Generate a personalized four-week study plan.
+- Learn through hints and reasoning, not only final answers.
+
+### 📁 Saved Code Library
+- Keep code snippets organized with tags.
+- Search, copy, and download saved snippets.
+- Open a saved snippet directly in the playground.
+
+### 📊 Learning Analytics
+- Track learning hours, solved problems, and quiz accuracy.
+- Review weekly and monthly activity charts.
+- Explore programming-language distribution.
+- Follow learning milestones and streaks.
+
+### 🛡️ Administrator Dashboard
+- Role-based access control for administrative features.
+- View platform activity and operational metrics.
+- Manage users and review curriculum status.
 
 ---
 
-## 🚀 Environment Variables
+## 🧰 Technology Stack
 
-Copy `.env.example` to `.env`:
+| Area | Technologies |
+| --- | --- |
+| Frontend | React 19, TypeScript, Tailwind CSS, Vite |
+| UI and charts | Lucide React, Recharts, Motion |
+| Code editor | Monaco Editor |
+| AI integration | Google Gemini API using `@google/genai` |
+| Backend | Node.js, Express.js, TypeScript |
+| Database | Firebase Firestore |
+| Authentication | Firebase Authentication |
+| Markdown | React Markdown, remark-gfm |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- A recent Node.js LTS release
+- npm
+- A Google Gemini API key
+- A Firebase project configured for the app's authentication and database features
+
+### 1. Clone the repository
+
 ```bash
-GEMINI_API_KEY="your_google_gemini_api_key"
+git clone https://github.com/prathameshsutar140/Codebuddy-AI.git
+cd Codebuddy-AI
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure environment variables
+
+Create a `.env` file in the project root:
+
+```env
+GEMINI_API_KEY=your_google_gemini_api_key
 PORT=3000
 NODE_ENV=development
 ```
 
+Replace the placeholder with your own API key. Keep the `.env` file private and never commit real API keys or credentials.
+
+### 4. Configure Firebase
+
+Create or select a Firebase project and configure the Firebase Authentication and Firestore services used by the application.
+
+For sign-in with a deployed Vercel URL, add that domain to Firebase Authentication's authorized domains. Also enable the sign-in providers used by your app.
+
+### 5. Start the development server
+
+```bash
+npm run dev
+```
+
+Open the local URL printed in your terminal.
+
+### Available scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` | Build the production frontend |
+| `npm start` | Start the server in production mode |
+| `npm run preview` | Preview the Vite production build |
+| `npm run lint` | Run the TypeScript type check |
+
 ---
 
-## 🌐 Deploying to GitHub & Vercel
+## ☁️ Deployment on Vercel
 
-When importing this repository into Vercel, complete these **two 1-minute steps** so your friends can sign in and create accounts from your Vercel link:
+1. Import this GitHub repository into your Vercel account.
+2. Add the required environment variables in **Project Settings → Environment Variables**.
+3. Add your Vercel deployment domain to **Firebase Console → Authentication → Settings → Authorized domains**.
+4. Enable the authentication providers used by the application in Firebase Authentication.
+5. Deploy the project and test sign-in, AI requests, and database-backed features.
 
-### 1. Add your Vercel domain to Firebase Authorized Domains
-Firebase blocks login requests from unknown domains for security.
-1. Open the [Firebase Console](https://console.firebase.google.com/) and select your project (`substantial-handbook-46lcq`).
-2. Go to **Build > Authentication > Settings**.
-3. Under **Authorized domains**, click **Add domain**.
-4. Paste your Vercel domain (e.g. `your-app-name.vercel.app`) and click **Save**.
-
-### 2. Enable Email/Password Sign-In
-1. In Firebase Console, go to **Authentication > Sign-in method**.
-2. Click on **Email/Password**.
-3. Toggle the switch to **Enable** and click **Save**.
-
-### 3. Add Environment Variables on Vercel
-In your Vercel Project Dashboard:
-- Go to **Settings > Environment Variables**.
-- Add `GEMINI_API_KEY` with your Google AI Studio Gemini API Key.
-
-*Note: CodeBuddy AI also provides an **"Instant Access: Continue as Guest Student"** button in the sign-in modal so anyone can explore immediately without waiting for domain configuration.*
+**Environment variable:** Add `GEMINI_API_KEY` with your own Google Gemini API key. Add any other environment values required by your deployment configuration.
 
 ---
 
-## 🔒 Security & Sandboxing
+## 🔐 Security Notes
 
-1. **Firestore Security Rules:** Hardened rule specifications protecting user PII, restricting write operations to document owners, and securing administrative collections.
-2. **Safe Code Execution:** User JavaScript code executes in an isolated Node.js VM context with a strict 2-second timeout and removed dangerous globals (`process`, `require`, `eval`, `Function`). Compiled languages are evaluated with deterministic static verification.
-3. **Secret Protection:** Google Gemini API keys are maintained exclusively on the server side in `server.ts`. Client code never accesses raw API secrets.
+- Keep Gemini API keys and other secrets on the server; never expose them in frontend code.
+- Do not commit `.env` files, private credentials, or service-account keys.
+- Configure Firestore Security Rules so users can access only the data they are authorized to use.
+- Keep code execution isolated and resource-limited. Do not treat a browser or server-side sandbox as a substitute for a hardened production execution environment.
+- Review and test AI-generated code before using it in real projects.
 
+---
+
+## 🗺️ Project Goals
+
+CodeBuddy AI aims to make programming practice more approachable by combining explanations, hands-on coding, debugging, and guided learning in one platform.
+
+Planned improvements may include more learning paths, additional programming exercises, and expanded progress insights.
+
+---
+
+## 🤝 Contributing
+
+Suggestions, bug reports, and improvements are welcome. You can help by opening an issue or submitting a pull request with a clear description of the change.
+
+---
+
+## 👨‍💻 Developer
+
+**Prathamesh Sutar**
+
+- GitHub: [@prathameshsutar140](https://github.com/prathameshsutar140)
+- Repository: [CodeBuddy AI](https://github.com/prathameshsutar140/Codebuddy-AI)
+
+---
+
+<p align="center">
+  Built with curiosity, creativity, and code.
+  <br />
+  <strong>CodeBuddy AI — Learn Smarter. Code Better. 🚀</strong>
+</p>
