@@ -120,6 +120,88 @@ Explore curated learning content for:
 
 ---
 
+## 🗂️・PROJECT FILE STRUCTURE
+
+The following tree reflects the repository's current top-level folders and the main files inside them.
+
+```text
+Codebuddy-AI/
+│
+├── api/
+│   └── index.ts
+│
+├── src/
+│   ├── components/
+│   │   ├── AuthModal.tsx
+│   │   ├── CodeBlock.tsx
+│   │   ├── MarkdownRenderer.tsx
+│   │   ├── Navbar.tsx
+│   │   └── Sidebar.tsx
+│   │
+│   ├── context/
+│   │   └── AuthContext.tsx
+│   │
+│   ├── data/
+│   │   ├── challengesData.ts
+│   │   └── coursesData.ts
+│   │
+│   ├── lib/
+│   │   └── firebase.ts
+│   │
+│   ├── types/
+│   │   └── index.ts
+│   │
+│   ├── views/
+│   │   ├── AIAssistantView.tsx
+│   │   ├── AdminView.tsx
+│   │   ├── ChallengesView.tsx
+│   │   ├── CodeExplainerView.tsx
+│   │   ├── CoursesView.tsx
+│   │   ├── DashboardView.tsx
+│   │   ├── DebuggingLabView.tsx
+│   │   ├── PlaygroundView.tsx
+│   │   ├── ProgressView.tsx
+│   │   ├── QuizView.tsx
+│   │   ├── SavedCodesView.tsx
+│   │   ├── SettingsView.tsx
+│   │   └── TutorView.tsx
+│   │
+│   ├── App.tsx
+│   ├── index.css
+│   └── main.tsx
+│
+├── .env.example
+├── .gitignore
+├── bun.lock
+├── firebase-applet-config.json
+├── firebase-blueprint.json
+├── firestore.rules
+├── index.html
+├── metadata.json
+├── package.json
+├── server.ts
+├── tsconfig.json
+├── vercel.json
+└── vite.config.ts
+```
+
+### 📂 Folder guide
+
+| Path | Purpose |
+| --- | --- |
+| `api/` | API entry point used by the deployment setup |
+| `src/components/` | Reusable interface components |
+| `src/context/` | Shared React context, including authentication state |
+| `src/data/` | Course and coding-challenge data |
+| `src/lib/` | Shared libraries and Firebase initialization |
+| `src/types/` | TypeScript type definitions |
+| `src/views/` | Main application screens and feature views |
+| `server.ts` | Node.js / Express server entry point |
+| `firestore.rules` | Firestore security rules |
+| `vercel.json` | Vercel deployment configuration |
+
+---
+
 ## 🚀・GETTING STARTED
 
 ### Prerequisites
