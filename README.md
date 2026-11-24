@@ -1,6 +1,29 @@
-# CodeBuddy AI
+<div align="center">
 
-> **Learn Smarter. Code Better. Build Your Future.**
+# ✦ CodeBuddy AI ✦
+
+### ⚡ Learn Smarter · Code Better · Build Your Future ⚡
+
+**Your AI-powered companion for learning, writing, debugging, and mastering code.**
+
+[![GitHub stars](https://img.shields.io/github/stars/prathameshsutar140/Codebuddy-AI?style=for-the-badge&logo=github&color=7c3aed)](https://github.com/prathameshsutar140/Codebuddy-AI/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/prathameshsutar140/Codebuddy-AI?style=for-the-badge&logo=github&color=2563eb)](https://github.com/prathameshsutar140/Codebuddy-AI/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/prathameshsutar140/Codebuddy-AI?style=for-the-badge&logo=github&color=ea580c)](https://github.com/prathameshsutar140/Codebuddy-AI/issues)
+[![Last commit](https://img.shields.io/github/last-commit/prathameshsutar140/Codebuddy-AI?style=for-the-badge&logo=git&color=16a34a)](https://github.com/prathameshsutar140/Codebuddy-AI/commits/main)
+
+<br />
+
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Gemini](https://img.shields.io/badge/AI-Google_Gemini-8E75B2?style=flat-square&logo=googlegemini&logoColor=white)
+![Firebase](https://img.shields.io/badge/Database-Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black)
+![Vite](https://img.shields.io/badge/Build-Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+
+</div>
+
+---
+
+> **「 Turn curiosity into code. Turn code into capability. 」**
 
 CodeBuddy AI is an AI-powered programming learning platform built to help students and developers understand code, practice programming, debug errors, and improve their problem-solving skills in one place.
 
@@ -8,7 +31,7 @@ It brings together an AI coding assistant, code explanations, a debugging worksp
 
 ---
 
-## ✨ Features
+## ✨・FEATURES & CAPABILITIES
 
 ### 🤖 AI Code Assistant
 - Chat with an AI assistant for programming help.
@@ -82,7 +105,7 @@ Explore curated learning content for:
 
 ---
 
-## 🧰 Technology Stack
+## 🧰・TECHNOLOGY STACK
 
 | Area | Technologies |
 | --- | --- |
@@ -97,7 +120,7 @@ Explore curated learning content for:
 
 ---
 
-## 🚀 Getting Started
+## 🚀・GETTING STARTED
 
 ### Prerequisites
 
@@ -157,7 +180,7 @@ Open the local URL printed in your terminal.
 
 ---
 
-## ☁️ Deployment on Vercel
+## ☁️・DEPLOYMENT ON VERCEL
 
 1. Import this GitHub repository into your Vercel account.
 2. Add the required environment variables in **Project Settings → Environment Variables**.
@@ -169,7 +192,7 @@ Open the local URL printed in your terminal.
 
 ---
 
-## 🔐 Security Notes
+## 🔐・SECURITY NOTES
 
 - Keep Gemini API keys and other secrets on the server; never expose them in frontend code.
 - Do not commit `.env` files, private credentials, or service-account keys.
@@ -179,7 +202,7 @@ Open the local URL printed in your terminal.
 
 ---
 
-## 🗺️ Project Goals
+## 🗺️・PROJECT VISION
 
 CodeBuddy AI aims to make programming practice more approachable by combining explanations, hands-on coding, debugging, and guided learning in one platform.
 
@@ -187,13 +210,13 @@ Planned improvements may include more learning paths, additional programming exe
 
 ---
 
-## 🤝 Contributing
+## 🤝・CONTRIBUTING
 
 Suggestions, bug reports, and improvements are welcome. You can help by opening an issue or submitting a pull request with a clear description of the change.
 
 ---
 
-## 👨‍💻 Developer
+## 👨‍💻・DEVELOPER
 
 **Prathamesh Sutar**
 
@@ -203,7 +226,11 @@ Suggestions, bug reports, and improvements are welcome. You can help by opening 
 ---
 
 <p align="center">
-  Built with curiosity, creativity, and code.
+  ✦ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ ✦
   <br />
-  <strong>CodeBuddy AI — Learn Smarter. Code Better. 🚀</strong>
+  <strong>⚡ CODEBUDDY AI · LEARN · BUILD · LEVEL UP ⚡</strong>
+  <br />
+  <sub>Crafted with curiosity, creativity, and code by <a href="https://github.com/prathameshsutar140">Prathamesh Sutar</a>.</sub>
+  <br />
+  ✦ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ ✦
 </p>
